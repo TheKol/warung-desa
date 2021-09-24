@@ -2,30 +2,48 @@ import { useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import { ProductInCart } from './ProductInCart';
 
-export const PopCart = (props) => {
+export const PopCart = ({
+  re,
+  lastId,
+  formatter,
+  productInCart,
+  onCheckOutClick,
+  setProductInCart,
+  onClickToggleCart,
+  onDeleteProductInCart,
+}) => {
   const [cash, setCash] = useState('');
+
   const dateNow = Date.now();
-  const totalTransaction = props.productInCart.reduce(
-    (a, v) => (a = a + v.transactionTotalPriceItem),
+
+  console.log(productInCart);
+
+  const totalItems = productInCart.reduce(
+    (total, item) => (total = total + item.amountItems),
     0
   );
 
-  const transactionDate = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  }).format(dateNow);
+  const totalTransaction = productInCart.reduce(
+    (total, item) => (total = total + item.transactionTotalPriceItem),
+    0
+  );
+
+  const totalProfit = productInCart.reduce(
+    (total, item) => (total = total + item.transactionProfit),
+    0
+  );
 
   const printInvoice = {
+    id: lastId + 1,
+    totalQty: totalItems,
+    totalItem: productInCart.length,
     total: totalTransaction,
-    cash: cash,
+    cash: parseInt(cash),
     change: cash - totalTransaction,
     date: dateNow,
     casier: 'Wawan',
-    sellProduct: [...props.productInCart],
+    totalProfit: totalProfit,
+    sellProduct: [...productInCart],
   };
 
   return (
@@ -35,7 +53,7 @@ export const PopCart = (props) => {
           <div className='relative flex flex-col w-[50rem] sm:h-[50rem] h-[640px] sm:rounded-lg bg-white'>
             <button
               className='absolute top-2 right-2'
-              onClick={props.onClickToggleCart}
+              onClick={onClickToggleCart}
             >
               <RiCloseLine className='text-5xl text-[#009645]' />
             </button>
@@ -47,20 +65,19 @@ export const PopCart = (props) => {
             </div>
             <div className='overflow-scroll overflow-x-hidden'>
               <ul className='divide-y divide-gray-200'>
-                {props.productInCart.map((cartItems) => (
+                {productInCart.map((cartItems) => (
                   <ProductInCart
-                    formatter={props.formatter}
                     key={cartItems.id}
+                    formatter={formatter}
                     cartItems={cartItems}
-                    transactionDate={transactionDate}
-                    onDeleteProductInCart={props.onDeleteProductInCart}
+                    onDeleteProductInCart={onDeleteProductInCart}
                   />
                 ))}
               </ul>
             </div>
             <div className='self-end mr-10'>
               <span className='text-right text-xl'>
-                Total: {props.formatter.format(printInvoice.total)}
+                Total: {formatter.format(printInvoice.total)}
               </span>
             </div>
             <div className='flex mx-10'>
@@ -74,7 +91,7 @@ export const PopCart = (props) => {
                   onChange={(event) => {
                     if (
                       event.target.value === '' ||
-                      props.re.test(event.target.value)
+                      re.test(event.target.value)
                     ) {
                       setCash(event.target.value);
                     }
@@ -82,21 +99,21 @@ export const PopCart = (props) => {
                 />
               </div>
               <span className='text-xl flex-grow text-right'>
-                cash: {props.formatter.format(cash)}
+                cash: {formatter.format(cash)}
               </span>
             </div>
             <div className='self-end mr-10'>
               <span className='text-right text-xl'>
                 Kembalian:{' '}
-                {props.formatter.format(parseInt(cash) - printInvoice.total)}
+                {formatter.format(parseInt(cash) - printInvoice.total)}
               </span>
             </div>
             <button
-              disabled={props.productInCart.length === 0}
+              disabled={productInCart.length === 0}
               onClick={() => {
-                props.onCheckOutClick(printInvoice);
-                props.setProductInCart([]);
-                props.onClickToggleCart();
+                onCheckOutClick(printInvoice);
+                setProductInCart([]);
+                onClickToggleCart();
               }}
               className='relative w-32 h-16 mb-10 border-2 rounded-lg text-xl hover:opacity-70 bg-[#009645] text-white self-center'
             >

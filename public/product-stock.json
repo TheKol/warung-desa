@@ -7,6 +7,7 @@
       "capitalPrice": 2500,
       "stock": 150,
       "unit": "pcs",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/indomiegoreng.jpg"
     },
     {
@@ -17,6 +18,7 @@
       "capitalPrice": 11000,
       "stock": 1000,
       "unit": "kg",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/beras.jpg"
     },
     {
@@ -27,6 +29,7 @@
       "capitalPrice": 18000,
       "stock": 10,
       "unit": "galon",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/galon.jpg"
     },
     {
@@ -37,6 +40,7 @@
       "capitalPrice": 24000,
       "stock": 10,
       "unit": "tabung",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/gas.png"
     },
     {
@@ -47,6 +51,7 @@
       "capitalPrice": 73000,
       "stock": 10,
       "unit": "tabung",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/gas5kg.png"
     },
     {
@@ -57,6 +62,7 @@
       "capitalPrice": 110000,
       "stock": 10,
       "unit": "tabung",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/gas12kg.jpg"
     },
     {
@@ -67,6 +73,7 @@
       "capitalPrice": 900,
       "stock": 400,
       "unit": "x 250gr",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/gula.jpg"
     },
     {
@@ -77,6 +84,7 @@
       "capitalPrice": 3000,
       "stock": 150,
       "unit": "pcs",
+      "purcaseDate": 1631836454683,
       "imgSource": "./images/indomiekuah.png"
     }
 ]
