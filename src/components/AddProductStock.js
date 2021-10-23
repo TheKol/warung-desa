@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaWarehouse } from 'react-icons/fa';
 
-export const AddProductStock = ({ onClickAddProduct, lastId }) => {
+export const AddProductStock = ({ onClickAddProduct }) => {
   const clearData = {
     productName: '',
     barCode: '',
@@ -19,19 +19,17 @@ export const AddProductStock = ({ onClickAddProduct, lastId }) => {
   const formSubmit = () => {
     const imgUrl = `./images/${selectedFile.name}`;
     const ProductInfo = {
-      id: String(lastId + 1),
       productName: formData.productName,
       barCode: formData.barCode,
       productPrice: parseInt(formData.productPrice),
       capitalPrice: parseInt(formData.capitalPrice),
       stock: parseInt(formData.amount),
       unit: formData.unit,
-      purcaseDate: Date.now(),
       imgSource: imgUrl,
     };
     onClickAddProduct(ProductInfo);
     setFormData(clearData);
-    setToggleForm(!toggleForm);
+    setToggleForm(false);
   };
 
   return (

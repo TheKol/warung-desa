@@ -719,11 +719,14 @@ video {
 .inline-flex {
 	display: inline-flex;
 }
-.h-screen {
-	height: 100vh;
+.h-\[100\%\] {
+	height: 100%;
 }
 .h-full {
 	height: 100%;
+}
+.h-screen {
+	height: 100vh;
 }
 .h-\[640px\] {
 	height: 640px;
@@ -1064,8 +1067,8 @@ video {
 		display: grid;
 	}
 
-	.sm\:h-\[50rem\] {
-		height: 50rem;
+	.sm\:h-\[35rem\] {
+		height: 35rem;
 	}
 
 	.sm\:grid-cols-3 {
@@ -1110,5 +1113,11 @@ video {
 	.sm\:text-sm {
 		font-size: 0.875rem;
 		line-height: 1.25rem;
+	}
+}
+@media print {
+
+	.print\:hidden {
+		display: none;
 	}
 }

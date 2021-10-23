@@ -36,7 +36,7 @@ export const ProductInCart = ({
         </div>
       </div>
       <button
-        onClick={() => onDeleteProductInCart(cartItems.id)}
+        onClick={() => onDeleteProductInCart(cartItems)}
         type='button'
         className='flex justify-center items-center h-14 w-14 p-1.5 ml-1.5 border-2 rounded-lg hover:opacity-70 bg-[#009645] text-white'
       >

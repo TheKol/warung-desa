@@ -4,7 +4,6 @@ import { ProductInCart } from './ProductInCart';
 
 export const PopCart = ({
   re,
-  lastId,
   formatter,
   productInCart,
   onCheckOutClick,
@@ -13,10 +12,6 @@ export const PopCart = ({
   onDeleteProductInCart,
 }) => {
   const [cash, setCash] = useState('');
-
-  const dateNow = Date.now();
-
-  console.log(productInCart);
 
   const totalItems = productInCart.reduce(
     (total, item) => (total = total + item.amountItems),
@@ -34,23 +29,21 @@ export const PopCart = ({
   );
 
   const printInvoice = {
-    id: lastId + 1,
     totalQty: totalItems,
     totalItem: productInCart.length,
     total: totalTransaction,
     cash: parseInt(cash),
     change: cash - totalTransaction,
-    date: dateNow,
     casier: 'Wawan',
     totalProfit: totalProfit,
     sellProduct: [...productInCart],
   };
 
   return (
-    <div className='absolute top-0 left-0 bg-opacity-70 w-screen h-screen bg-black'>
+    <div className='absolute top-0 left-0 bg-opacity-70 w-screen h-[100%] bg-black'>
       <div className='w-full h-full'>
         <div className='flex justify-center items-center h-screen'>
-          <div className='relative flex flex-col w-[50rem] sm:h-[50rem] h-[640px] sm:rounded-lg bg-white'>
+          <div className='relative flex flex-col w-[50rem] sm:h-[35rem] h-[640px] sm:rounded-lg bg-white'>
             <button
               className='absolute top-2 right-2'
               onClick={onClickToggleCart}
@@ -109,7 +102,7 @@ export const PopCart = ({
               </span>
             </div>
             <button
-              disabled={productInCart.length === 0}
+              disabled={productInCart.length === 0 || !cash}
               onClick={() => {
                 onCheckOutClick(printInvoice);
                 setProductInCart([]);

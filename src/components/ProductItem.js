@@ -13,7 +13,7 @@ export const ProductItem = ({
   const itemProfit = product.productPrice - product.capitalPrice;
 
   const checkStock = () => {
-    if (product.stock <= parseAmount) {
+    if (product.stock < parseAmount) {
       return false;
     } else {
       return true;
