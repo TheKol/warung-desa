@@ -1,46 +1,67 @@
 import React, { useState } from 'react';
-import { FaWarehouse } from 'react-icons/fa';
-import ImagesList from './ImagesList';
+import { RiBuildingLine } from 'react-icons/ri';
+import { gql, useMutation } from '@apollo/client';
+import RentInvoice from './RentInvoice';
+import { useUser } from '../auth/useUser';
 
-export const AddProductStock = ({ onClickAddProduct }) => {
+export const AddRent = () => {
   const re = /^[0-9\b]+$/;
   const clearData = {
-    productName: '',
-    barCode: '',
-    productPrice: '',
-    capitalPrice: '',
-    amount: '',
-    unit: '',
-    imgSource: '',
+    rentName: '',
+    rentPrice: '',
+    rentUserName: '',
+    rentDownPayment: '',
+    rentStatus: '',
+    rentDate: '',
+    rentStartTime: '',
+    rentEndTime: '',
   };
+  const { userName } = useUser();
 
+  let [toggleRentInvoice, setToggleRentInvoice] = useState(false);
   let [toggleForm, setToggleForm] = useState(false);
-  let [selectedFile, setSelectedFile] = useState('');
   let [formData, setFormData] = useState(clearData);
-  const [toggleImageList, setToggleImageList] = useState(false);
+
+  const [inputAddRent, { data, loading, error }] = useMutation(ADD_RENT);
 
   const formSubmit = () => {
-    const ProductInfo = {
-      productName: formData.productName,
-      barCode: formData.barCode,
-      productPrice: parseInt(formData.productPrice),
-      capitalPrice: parseInt(formData.capitalPrice),
-      stock: parseInt(formData.amount),
-      unit: formData.unit,
-      imgSource: selectedFile,
+    const rentStatus =
+      parseInt(formData.rentPrice) > parseInt(formData.rentDownPayment)
+        ? false
+        : true;
+    const rentDate = formData.rentDate.concat(' ', formData.rentStartTime);
+    const rentDateEnd = formData.rentDate.concat(' ', formData.rentEndTime);
+
+    const RentInfo = {
+      rentName: formData.rentName,
+      rentPrice: parseInt(formData.rentPrice),
+      rentUserName: formData.rentUserName,
+      rentDownPayment: parseInt(formData.rentDownPayment),
+      rentStatus: rentStatus,
+      rentDate: rentDate,
+      rentDateEnd: rentDateEnd,
+      cashier: userName,
     };
-    onClickAddProduct(ProductInfo);
+
+    inputAddRent({ variables: { input: RentInfo } });
     setFormData(clearData);
-    setSelectedFile('');
     setToggleForm(false);
+    setToggleRentInvoice(true);
   };
 
-  const onClickSelectImage = () => {
-    setToggleImageList(!toggleImageList);
-  };
+  if (loading) return null;
+  if (error) return 'Error Data yang dicari tidak ada!!';
 
   return (
-    <>
+    <div>
+      {toggleRentInvoice && (
+        <RentInvoice
+          data={data.addRent}
+          onClickedClosedButton={() => {
+            setToggleRentInvoice(false);
+          }}
+        />
+      )}
       <button
         onClick={() => {
           setToggleForm(!toggleForm);
@@ -50,28 +71,27 @@ export const AddProductStock = ({ onClickAddProduct }) => {
         }`}
       >
         <div>
-          <FaWarehouse className='inline-block align-text-top' /> Add Product
-          Stock
+          <RiBuildingLine className='inline-block align-text-top' /> Add Rent
         </div>
       </button>
       {toggleForm && (
         <div className='border-r-2 border-b-2 border-l-2 border-light-blue-500 rounded-b-md pl-4 pr-4 pb-4'>
           <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
             <label
-              htmlFor='productName'
+              htmlFor='rentName'
               className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
             >
-              Product Name
+              Rent Name
             </label>
             <div className='mt-1 sm:mt-0 sm:col-span-2'>
               <input
                 onChange={(e) => {
-                  setFormData({ ...formData, productName: e.target.value });
+                  setFormData({ ...formData, rentName: e.target.value });
                 }}
-                value={formData.productName}
+                value={formData.rentName}
                 type='text'
-                name='productName'
-                id='productName'
+                name='rentName'
+                id='rentName'
                 className='w-60 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
               />
             </div>
@@ -79,20 +99,20 @@ export const AddProductStock = ({ onClickAddProduct }) => {
 
           <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
             <label
-              htmlFor='barCode'
+              htmlFor='rentUserName'
               className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
             >
-              Bar Code
+              Rent User
             </label>
             <div className='mt-1 sm:mt-0 sm:col-span-2'>
               <input
                 onChange={(e) => {
-                  setFormData({ ...formData, barCode: e.target.value });
+                  setFormData({ ...formData, rentUserName: e.target.value });
                 }}
-                value={formData.barCode}
+                value={formData.rentUserName}
                 type='text'
-                name='barCode'
-                id='barCode'
+                name='rentUserName'
+                id='rentUserName'
                 className='w-60 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
               />
             </div>
@@ -100,22 +120,22 @@ export const AddProductStock = ({ onClickAddProduct }) => {
 
           <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
             <label
-              htmlFor='productPrice'
+              htmlFor='rentPrice'
               className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
             >
-              Product Price
+              Rent Price
             </label>
             <div className='mt-1 sm:mt-0 sm:col-span-2'>
               <input
                 onChange={(e) => {
                   if (e.target.value === '' || re.test(e.target.value)) {
-                    setFormData({ ...formData, productPrice: e.target.value });
+                    setFormData({ ...formData, rentPrice: e.target.value });
                   }
                 }}
-                value={formData.productPrice}
+                value={formData.rentPrice}
                 type='text'
-                name='productPrice'
-                id='productPrice'
+                name='rentPrice'
+                id='rentPrice'
                 className='w-32 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
               />
             </div>
@@ -123,22 +143,25 @@ export const AddProductStock = ({ onClickAddProduct }) => {
 
           <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
             <label
-              htmlFor='capitalPrice'
+              htmlFor='rentDownPayment'
               className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
             >
-              Capital Price
+              DP
             </label>
             <div className='mt-1 sm:mt-0 sm:col-span-2'>
               <input
                 onChange={(e) => {
                   if (e.target.value === '' || re.test(e.target.value)) {
-                    setFormData({ ...formData, capitalPrice: e.target.value });
+                    setFormData({
+                      ...formData,
+                      rentDownPayment: e.target.value,
+                    });
                   }
                 }}
-                value={formData.capitalPrice}
+                value={formData.rentDownPayment}
                 type='text'
-                name='capitalPrice'
-                id='capitalPrice'
+                name='rentDownPayment'
+                id='rentDownPayment'
                 className='w-32 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
               />
             </div>
@@ -146,43 +169,20 @@ export const AddProductStock = ({ onClickAddProduct }) => {
 
           <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
             <label
-              htmlFor='amount'
+              htmlFor='rentDate'
               className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
             >
-              Amount
+              Rent Date
             </label>
             <div className='mt-1 sm:mt-0 sm:col-span-2'>
               <input
                 onChange={(e) => {
-                  if (e.target.value === '' || re.test(e.target.value)) {
-                    setFormData({ ...formData, amount: e.target.value });
-                  }
+                  setFormData({ ...formData, rentDate: e.target.value });
                 }}
-                value={formData.amount}
-                type='text'
-                name='amount'
-                id='amount'
-                className='w-32 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
-              />
-            </div>
-          </div>
-
-          <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
-            <label
-              htmlFor='unit'
-              className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
-            >
-              Unit
-            </label>
-            <div className='mt-1 sm:mt-0 sm:col-span-2'>
-              <input
-                onChange={(e) => {
-                  setFormData({ ...formData, unit: e.target.value });
-                }}
-                value={formData.unit}
-                type='text'
-                name='unit'
-                id='unit'
+                value={formData.rentDate}
+                type='date'
+                name='rentDate'
+                id='rentDate'
                 className='w-40 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
               />
             </div>
@@ -190,34 +190,56 @@ export const AddProductStock = ({ onClickAddProduct }) => {
 
           <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
             <label
-              htmlFor='imgSource'
+              htmlFor='rentTimeStart'
               className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
             >
-              Select Product Image
+              Time
             </label>
-            <div className='flex flex-row items-center mt-1 sm:mt-0 sm:col-span-2 space-x-4'>
-              <button
-                onClick={onClickSelectImage}
-                className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm 
-              font-medium rounded-md text-white bg-[#009645] hover:opacity-70 focus:outline-none focus:ring-2 
-              focus:ring-offset-2 focus:ring-[#089EA3]'
-              >
-                Select Image
-              </button>
-              {selectedFile && <p>{selectedFile}</p>}
+            <div className='mt-1 sm:mt-0 sm:col-span-2'>
+              <input
+                onChange={(e) => {
+                  setFormData({ ...formData, rentStartTime: e.target.value });
+                }}
+                value={formData.rentStartTime}
+                type='time'
+                name='rentTimeStart'
+                id='rentTimeStart'
+                className='w-32 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
+              />
+            </div>
+          </div>
+
+          <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
+            <label
+              htmlFor='rentEndTime'
+              className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'
+            >
+              Rent End
+            </label>
+            <div className='mt-1 sm:mt-0 sm:col-span-2'>
+              <input
+                onChange={(e) => {
+                  setFormData({ ...formData, rentEndTime: e.target.value });
+                }}
+                value={formData.rentEndTime}
+                type='time'
+                name='rentEndTime'
+                id='rentEndTime'
+                className='w-32 rounded-md border-2 focus:ring-[#089EA3] focus:outline-none focus:ring-2 focus:ring-offset-2'
+              />
             </div>
           </div>
           <div className='pt-5'>
             <div className='flex justify-end'>
               <button
                 disabled={
-                  !formData.productName ||
-                  !formData.barCode ||
-                  !formData.productPrice ||
-                  !formData.capitalPrice ||
-                  !formData.amount ||
-                  !formData.unit ||
-                  !selectedFile
+                  !formData.rentName ||
+                  !formData.rentUserName ||
+                  !formData.rentPrice ||
+                  !formData.rentDownPayment ||
+                  !formData.rentDate ||
+                  !formData.rentStartTime ||
+                  !formData.rentEndTime
                 }
                 onClick={formSubmit}
                 type='submit'
@@ -229,14 +251,23 @@ export const AddProductStock = ({ onClickAddProduct }) => {
           </div>
         </div>
       )}
-      {toggleImageList && (
-        <ImagesList
-          onClickChoseImage={(imageSelected) => {
-            setSelectedFile(imageSelected);
-          }}
-          onClickSelectImage={onClickSelectImage}
-        />
-      )}
-    </>
+    </div>
   );
 };
+
+const ADD_RENT = gql`
+  mutation AddRentMutation($input: RentDataInput) {
+    addRent(input: $input) {
+      id
+      rentName
+      rentPrice
+      rentUserName
+      rentDownPayment
+      rentStatus
+      bookingDate
+      rentDate
+      rentDateEnd
+      cashier
+    }
+  }
+`;

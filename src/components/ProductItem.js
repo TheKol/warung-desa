@@ -42,7 +42,10 @@ export const ProductItem = ({
         className='flex justify-center items-center h-16 w-16 p-1.5 mr-1.5 border-2 rounded hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#089EA3]'
         onClick={() => (!amount ? setAmount('1') : setAmount(parseAmount + 1))}
       >
-        <img src={product.imgSource} alt={product.imgSource} />
+        <img
+          src={`http://localhost:4000/images/${product.imgSource}`}
+          alt={product.productName}
+        />
       </button>
       <div className='flex-grow'>
         <div className='flex items-center'>

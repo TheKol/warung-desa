@@ -12,7 +12,10 @@ export const ProductInCart = ({
         type='button'
         className='h-16 w-16 p-1.5 mr-1.5 border-2 rounded hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#089EA3]'
       >
-        <img src={cartItems.imgProduct} alt='indomie' />
+        <img
+          src={`http://localhost:4000/images/${cartItems.imgProduct}`}
+          alt='indomie'
+        />
       </button>
       <div className='flex-grow'>
         <div className='flex items-center'>

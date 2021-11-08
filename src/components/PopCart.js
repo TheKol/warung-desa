@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
+import { useUser } from '../auth/useUser';
 import { ProductInCart } from './ProductInCart';
 
 export const PopCart = ({
@@ -12,6 +13,7 @@ export const PopCart = ({
   onDeleteProductInCart,
 }) => {
   const [cash, setCash] = useState('');
+  const { userName } = useUser();
 
   const totalItems = productInCart.reduce(
     (total, item) => (total = total + item.amountItems),
@@ -34,7 +36,7 @@ export const PopCart = ({
     total: totalTransaction,
     cash: parseInt(cash),
     change: cash - totalTransaction,
-    casier: 'Wawan',
+    casier: userName,
     totalProfit: totalProfit,
     sellProduct: [...productInCart],
   };

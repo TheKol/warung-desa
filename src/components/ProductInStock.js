@@ -1,5 +1,5 @@
 export const ProductInStock = ({ formatter, product }) => {
-  const transactionDate = new Intl.DateTimeFormat('en-US', {
+  const transactionDate = new Intl.DateTimeFormat(['ban', 'id'], {
     year: 'numeric',
     month: 'long',
     day: '2-digit',
@@ -8,28 +8,13 @@ export const ProductInStock = ({ formatter, product }) => {
     second: '2-digit',
   }).format(product.purcaseDate);
 
-  // const yearDate = new Intl.DateTimeFormat('en-US', {
-  //   year: 'numeric',
-  // month: 'long',
-  // day: '2-digit',
-  // hour: '2-digit',
-  // minute: '2-digit',
-  // second: '2-digit',
-  // }).format(product.purcaseDate);
-
-  // if (
-  //   transactionDate.toLocaleLowerCase() === 'september' &&
-  //   yearDate === '2021'
-  // ) {
-  //   console.log('true');
-  // } else {
-  //   console.log('false');
-  // }
-
   return (
     <li className='px-3 py-3 flex justify-center items-center'>
       <div className='flex justify-center items-center h-16 w-16 p-1.5 mr-1.5 border-2 rounded'>
-        <img src={product.imgSource} alt={product.imgSource} />
+        <img
+          src={`http://localhost:4000/images/${product.imgSource}`}
+          alt={product.productName}
+        />
       </div>
       <div className='flex-grow'>
         <div className='flex items-center'>

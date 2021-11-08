@@ -6,7 +6,6 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 
 export const GoodsStorage = () => {
   let [query, setQuery] = useState('');
-  // let [productList, setProductList] = useState([]);
   let [filteredProduct, setFilteredProduct] = useState([]);
   let [purchaseReport, setPurchaseReport] = useState([]);
 
@@ -16,21 +15,11 @@ export const GoodsStorage = () => {
   });
   const [inputPurcaseReport] = useMutation(ADD_PURCASE_REPORT);
 
-  console.log(purchaseReport);
-
   const formatter = new Intl.NumberFormat('ID', {
     style: 'currency',
     currency: 'IDR',
     maximumFractionDigits: 0,
   });
-
-  // const fetchData = useCallback(() => {
-  //   fetch('./product-stock.json')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setProductList(data);
-  //     });
-  // }, []);
 
   useEffect(() => {
     if (purchaseReport.length !== 0) {
@@ -52,17 +41,12 @@ export const GoodsStorage = () => {
   }, [setFilteredProduct, stockList, query, loading]);
 
   return (
-    <div className='overflow-x-hidden w-screen'>
+    <div className='relative overflow-x-hidden w-screen'>
       <div className='container flex flex-col mx-auto mt-3 font-thin max-w-6xl'>
         <AddProductStock
           onClickAddProduct={(newStock) => {
-            // setProductList([...productList, newStock]);
             setPurchaseReport(newStock);
           }}
-          // lastId={productList.reduce(
-          //   (max, item) => (Number(item.id) > max ? Number(item.id) : max),
-          //   0
-          // )}
         />
         <Search query={query} onQueryChange={(myQuery) => setQuery(myQuery)} />
         <ul className='divide-y divide-gray-200'>

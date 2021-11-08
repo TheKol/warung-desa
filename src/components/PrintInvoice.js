@@ -14,7 +14,7 @@ export const PrintInvoice = ({
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
-  const transactionDate = new Intl.DateTimeFormat('en-US', {
+  const transactionDate = new Intl.DateTimeFormat(['ban', 'id'], {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -28,7 +28,7 @@ export const PrintInvoice = ({
   };
 
   return (
-    <div className='absolute top-0 left-0 bg-opacity-70 w-screen h-[100%] bg-black'>
+    <div className='absolute top-0 left-0 bg-opacity-70 w-screen h-full bg-black'>
       <div className='w-full h-full'>
         <div className='flex'>
           <div className='flex flex-col justify-center text-center ml-4 mt-4 border-2 w-52 p-2 bg-white'>
@@ -56,10 +56,6 @@ export const PrintInvoice = ({
                 <p className='flex-grow text-[11px] text-right'>
                   &emsp;{invoice.casier}
                 </p>
-              </div>
-              <div className='flex self-start'>
-                <p className='text-[11px]'>Tipe pesanan&ensp;:</p>
-                <p className='flex-grow text-[11px] text-right'>&emsp;FAST</p>
               </div>
             </div>
             <ul className='flex flex-col border-b-2 border-dashed border-black py-2 w-full'>
@@ -106,7 +102,9 @@ export const PrintInvoice = ({
               </div>
               <div className='flex flex-col justify-center mt-4'>
                 <p className='text-[11px]'>Nomor pesanan</p>
-                <p className='text-[11px]'>{idTransaction}</p>
+                <p className='text-[11px]'>
+                  {!idTransaction ? invoice.id : idTransaction}
+                </p>
               </div>
             </div>
             <div className='flex flex-col pt-2 w-full'>
