@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import { createUploadLink } from 'apollo-upload-client';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import configData from './config.json';
 
 const client = new ApolloClient({
   link: createUploadLink({
-    uri: 'http://192.168.0.105:4000/graphql',
+    uri: configData.GRAPHQL_URL,
   }),
   cache: new InMemoryCache(),
 });
