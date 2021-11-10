@@ -7,12 +7,13 @@ export const ProductInStock = ({ formatter, product }) => {
     minute: '2-digit',
     second: '2-digit',
   }).format(product.purcaseDate);
+  const BASE_URL = window.BASE_URL;
 
   return (
     <li className='px-3 py-3 flex justify-center items-center'>
       <div className='flex justify-center items-center h-16 w-16 p-1.5 mr-1.5 border-2 rounded'>
         <img
-          src={`http://localhost:4000/images/${product.imgSource}`}
+          src={`${BASE_URL}/images/${product.imgSource}`}
           alt={product.productName}
         />
       </div>

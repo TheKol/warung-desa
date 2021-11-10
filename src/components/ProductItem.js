@@ -35,6 +35,8 @@ export const ProductItem = ({
     transactionTotalPriceItem: product.productPrice * parseAmount,
   };
 
+  const BASE_URL = window.BASE_URL;
+
   return (
     <li className='px-3 py-3 flex justify-center items-center'>
       <button
@@ -43,7 +45,7 @@ export const ProductItem = ({
         onClick={() => (!amount ? setAmount('1') : setAmount(parseAmount + 1))}
       >
         <img
-          src={`http://localhost:4000/images/${product.imgSource}`}
+          src={`${BASE_URL}/images/${product.imgSource}`}
           alt={product.productName}
         />
       </button>

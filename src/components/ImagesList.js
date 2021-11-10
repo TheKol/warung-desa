@@ -13,6 +13,7 @@ const ImagesList = ({ onClickSelectImage, onClickChoseImage }) => {
   const [addImage] = useMutation(ADD_IMAGE, {
     refetchQueries: [ALL_IMAGES, 'Query'],
   });
+  const BASE_URL = window.BASE_URL;
 
   if (loading) return null;
   if (error) return 'Error Data yang dicari tidak ada!!';
@@ -55,7 +56,7 @@ const ImagesList = ({ onClickSelectImage, onClickChoseImage }) => {
               }}
             >
               <img
-                src={`http://localhost:4000/images/${img.imgName}`}
+                src={`${BASE_URL}/images/${img.imgName}`}
                 alt={img.imgName}
               />
             </button>

@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import { createUploadLink } from 'apollo-upload-client';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import configData from './config.json';
 
+const BASE_URL = window.BASE_URL;
 const client = new ApolloClient({
   link: createUploadLink({
-    uri: configData.GRAPHQL_URL,
+    uri: `${BASE_URL}/graphql`,
   }),
   cache: new InMemoryCache(),
 });

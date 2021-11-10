@@ -59,6 +59,7 @@ export const AddRent = () => {
           data={data.addRent}
           onClickedClosedButton={() => {
             setToggleRentInvoice(false);
+            window.location.reload();
           }}
         />
       )}
