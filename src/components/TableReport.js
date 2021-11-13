@@ -55,7 +55,7 @@ const TableReport = ({ calculateMonth, calculateYear, month }) => {
     <>
       <div className='h-screen mt-10 w-full ml-4'>
         <h1 className='hidden print:block font-bold text-3xl mb-6'>
-          Laporan Bulan Penjualan <br />
+          Laporan Penjualan <br />
           Bulan {month} Tahun {calculateYear}
         </h1>
 

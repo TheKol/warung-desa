@@ -72,7 +72,7 @@ export const NavBar = () => {
     <>
       <nav
         className='top-0 z-10 uppercase border-b-2 
-      text-gray-500 bg-white dark:bg-black dark:text-white w-screen'
+      text-gray-500 bg-white dark:bg-black dark:text-white w-screen print:hidden'
       >
         <div className='flex flex-row p-2 items-center'>
           <div className='flex flex-row flex-initial items-center'>
